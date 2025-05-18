@@ -1,0 +1,2 @@
+## 📘 Educol
+Educol es una plataforma educativa moderna diseñada para facilitar la gestión de cursos, el aprendizaje colaborativo y la interacción entre estudiantes y profesores. Permite a los docentes crear cursos, compartir material, calificar estudiantes y mantener foros activos de discusión. Los estudiantes pueden participar en clases, entregar asignaciones, dejar comentarios, chatear con otros usuarios y recibir retroalimentación directa de sus profesores.
