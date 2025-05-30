@@ -55,7 +55,7 @@ app.use(cors());
       sameSite: 'strict',
       maxAge: 1000 * 60 * 60
     })
-    .status(201).json({message: 'User created succesfully'})
+    .status(201).json({message: 'Logged in succesfully'})
     }catch(error){
       res.status(500).json({error: error.message})
     }
