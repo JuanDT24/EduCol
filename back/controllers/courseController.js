@@ -60,7 +60,7 @@ class courseController {
         }
         await db.collection('courses').updateOne(
         { _id: courseObjectId },
-        { $addToSet: { students: student._id } } // ✅ evita duplicados, crea array si no existe
+        { $addToSet: { students: student._id } } 
         );
 
         // Add course to student's courses array

@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 var validator = require("email-validator");
 class UserController {
     static async createUser (userEmail, userName, userPassword, isTeacher){
-
         // Email Validation
         if (!validator.validate(userEmail)) throw new Error('Email is not valid');
         const db = await Connection.connect()
@@ -56,7 +55,6 @@ class UserController {
         .find({ _id: { $in: user.courses } }) // busca todos los cursos por _id
         .toArray();
         return courses;
-
 
     }
 }
