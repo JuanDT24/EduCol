@@ -2,17 +2,27 @@ body.login-page {
     margin: 0;
     font-family: 'Roboto', sans-serif;
     height: 100vh;
-    background: linear-gradient(orange, lightcoral);
 }
+
+.loginRoot{
+    background: linear-gradient(orange, lightcoral);
+    width:90%;
+    height:90%;
+    padding:5%;
+    padding-bottom:15%;
+}
+
+
 .container{
 display:flex;
 flex-direction: column;
-margin: auto;
-margin-top: 200px;
+margin-left:auto;
+margin-right:auto;
 background:white;
 padding-bottom:30px;
 width: 600px;
 } 
+
 .header{
     display:flex;
     flex-direction: column;
@@ -72,8 +82,7 @@ width: 600px;
 }
 .submit-container{
     display:flex;
-    margin-top: 20px;
-    margin: 60px auto;
+    margin: 20px auto;
     gap: 30px;
 }	
 .submit{
@@ -89,8 +98,47 @@ width: 600px;
     cursor:pointer;
     font-size: 18px;
     font-weight: 400px;
+    
+}
+.submit:hover {
+    background-color: #e84910; /* Slightly darker shade */
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+.submit:active {
+    transform: translateY(0); /* Push down effect when clicked */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Flatten shadow when pressed */
 }
 .gray{
     background: #eaeaea;
     color: darkgray;
+}
+.BackButton{
+    display: flex;
+    margin: 10px 0 0 10px;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 40px;
+    color: orangered;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.BackButton:hover {
+    color: #b83c0f; /* Slightly darker shade */
+}
+
+.input-row{
+    display: flex;
+    align-items: center;
+    margin:auto;
+    width:480px;
+    height:40px;
+    border-radius: 6px;
+    margin-top: 10px;
+    padding : 0px 160px;
+
 }

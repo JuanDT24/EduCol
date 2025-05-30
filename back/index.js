@@ -30,7 +30,6 @@ app.use('/api/courses', courseRoutes)
   const users = await db.collection('users').find({}).toArray();
   res.json(users)
  });
-
  app.post('/api/registerUser' , async (req, res) => {
   try {
     await UserController.createUser(req.body.email, req.body.username, req.body.password, req.body.isTeacher)

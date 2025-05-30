@@ -1,0 +1,47 @@
+/* Base Button */
+.button {
+  /* Your existing gradient styles */
+  background: linear-gradient(to right, #FF8C00, #FF6B6B);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 140, 0, 0.3);
+}
+
+.button:hover {
+  background: linear-gradient(to right, #FF6B6B, #FF8C00);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
+/* Variants */
+.button.secondary {
+  background: linear-gradient(to right, #FFB347, #FFCCCB); /* Lighter gradient */
+  color: #333;
+}
+
+.button.outline {
+  background: transparent;
+  border: 2px solid #FF8C00;
+  color: #FF8C00;
+}
+
+.button.outline:hover {
+  background: rgba(255, 140, 0, 0.1);
+}
+
+/* Disabled State */
+.button:disabled {
+  background: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}

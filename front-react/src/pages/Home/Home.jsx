@@ -7,7 +7,11 @@ const Home = () => {
   return (
     <>
         <div className = "image-background">
-          <Topbar/>
+          <Topbar topbarItems = {[
+            { label: "Inicio", action: "scroll", target: "home" },
+            { label: "Sobre Nosotros", action: "scroll", target: "about-us" },
+            { label: "Registrate", action: "navigate", target: "/login" }
+          ]}/>
           <div className="title">
             <h1 style={{fontWeight:"bold", color: 'white', fontSize:'100px', textShadow:"10px"}}>Aprende con nosotros!</h1>
           </div>
