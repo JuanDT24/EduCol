@@ -1,39 +1,97 @@
-html, body {
-    margin: 0;
-    padding: 0;
-    font-family: "Plus Jakarta Sans", sans-serif;;
-}
-.topbar-container{
-    background-color: transparent;
-    height: 50px;
+.topbar-container {
+    background-color: rgba(255, 69, 0, 0.1); /* Semi-transparent orange */
+    height: 60px;
     width: 100%;
-    backdrop-filter: blur(2px);
-    position:relative; /* Esto permite position:absolute en los hijos*/
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 40px;
+    z-index: 1000;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
-.short-border{
-    position: absolute;/* Esto permite poner el borde por debajo*/
-    width: 18%;
-    height: 1px;
-    background: white;
+
+.topbar-container:hover {
+    background-color: rgba(255, 69, 0, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.short-border {
     position: absolute;
+    width: 20%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, white, transparent);
     left: 50%;
-    transform: translateX(-50%) scaleY(0.2);;
+    transform: translateX(-50%);
     bottom: 0;
+    opacity: 0.6;
+    transition: all 0.3s ease;
 }
-.topbar-item{
+
+.topbar-item {
     background-color: transparent;
-    border-color: transparent;
-    color: aliceblue;
-    font-weight: bold;
-    font-size: large;
-    
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
-.topbar-item:hover{
-    background-color: rgba(236, 230, 230, 0.5);
+
+.topbar-item::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width 0.3s ease;
+}
+
+.topbar-item:hover {
+    background-color: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(5px);
-    border-radius: 5px;
+    transform: translateY(-2px);
 }
+
+.topbar-item:hover::before {
+    width: 60%;
+}
+
+/* Active state */
+.topbar-item.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.topbar-item.active::before {
+    width: 60%;
+}
+
+/* Animation for navbar items */
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Add this to your Topbar component to animate each item */
+.topbar-item:nth-child(1) { animation: fadeInRight 0.5s ease 0.1s both; }
+.topbar-item:nth-child(2) { animation: fadeInRight 0.5s ease 0.2s both; }
+.topbar-item:nth-child(3) { animation: fadeInRight 0.5s ease 0.3s both; }
