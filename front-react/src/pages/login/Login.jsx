@@ -45,9 +45,11 @@ export default function Login() {
         console.log(response);
         const user = userData;
         if (user.isTeacher) {
-          Navigate("/student");
-        } else {
           Navigate("/teacher");
+          console.log("Teacher logged in" + user.isTeacher);
+        } else {
+          Navigate("/student");
+          console.log("Student logged in" + user.isTeacher);
         }
       } catch (err) {
         console.error(err);
@@ -64,6 +66,7 @@ export default function Login() {
     };
   });
   return (
+    <div className = "loginRoot">
     <div className="container">
       <div className="top-container">
         <ArrowBackIosIcon onClick={()=>Navigate("..")} className ={"BackButton"}/>
@@ -143,6 +146,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
