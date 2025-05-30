@@ -1,0 +1,26 @@
+body {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  scroll-behavior: smooth;
+}
+
+#root {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: linear-gradient(orangered, orange);
+    
+  } 
+
+.Title{
+    font-size: 2.5rem;
+    font-weight: bold;
+    border-radius:15px;
+    padding: 2%;
+    width: 45%;
+    margin-left:15px;
+    margin-bottom:15px;
+    color: white;
+    background-color: rgba(247, 153, 13, 0.952);
+    margin-top: 20px;
+
+}
