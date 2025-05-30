@@ -30,13 +30,23 @@ class UserController {
         const user = await db.collection('users').findOne({email: userEmail})
         if(!user) throw new Error('User does not exist')
         if(await bcrypt.compare(userPassword, user.password)){
-            return {
-                id: user._id,
-                username: user.username
-            }
+            return user;
         }else{
             throw new Error('Incorrect password')
         }
+    }
+    static async getCoursesByName(userName){
+        const db = await Connection.connect()
+        const user = await db.collection('users').findOne({username: userName})
+        if(!user) throw new Error('User does not exist')
+        if (!Array.isArray(user.courses) || user.courses.length === 0) {
+        throw new Error('User has no courses');
+        }
+
+        const courses = await db.collection('courses')
+        .find({ _id: { $in: user.courses } }) // busca todos los cursos por _id
+        .toArray();
+        return courses;
 
     }
 }

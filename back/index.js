@@ -1,20 +1,29 @@
-
+// Dependencies
 const express = require('express');
 const Connection = require('./database_connection.js');
 const bcrypt = require('bcrypt');
 const cors = require("cors")
 const UserController = require('./UserController.js')
-const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
 const port = process.env.PORT ?? 5000;
 const app = express();
-const cookieParser = require('cookie-parser')
 
+
+
+// Route imports 
+const teacherRoutes = require('./routes/teacherRoutes.js')
+const studentRoutes = require('./routes/studentRoutes.js')
+const courseRoutes = require('./routes/courseRoutes.js')
 // middleware
 app.use(cookieParser())
 app.use(express.json());
 app.use(cors());
 
+//Routes 
+
+app.use('/api/teachers', teacherRoutes)
+app.use('/api/students', studentRoutes)
+app.use('/api/courses', courseRoutes)
 // endpoints
  app.get('/api/users', async (req, res) => {
   const db = await Connection.connect()
@@ -45,26 +54,21 @@ app.use(cors());
     // Verifying user
     try{
     const user = await UserController.login(req.body.email, req.body.password)
-      const token = jwt.sign({id:user.id, username:user.username}, process.env.JWT_SECRET, 
-      {
-        expiresIn: '1h'
-      })
-      res.cookie('access_token', token, {
-      httpOnly: true,
-      secure: false, // It's ideal to change it to true if the app is in production
-      sameSite: 'strict',
-      maxAge: 1000 * 60 * 60
-    })
-    .status(201).json({message: 'Logged in succesfully'})
+    res.status(201).json({user})
     }catch(error){
       res.status(500).json({error: error.message})
     }
  });
- app.post('/api/logout' , (req,res) => {
-    res.clearCookie('access_token').json({message: "Logged out succesfully"})
-
- })
-
+ 
+app.post('/api/users/getcourses_byusername', async (req, res) => {
+  try {
+    const courses = await UserController.getCoursesByName(req.body.username);
+    res.status(200).json(courses);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+    console.error(error);
+  }
+ });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
