@@ -78,8 +78,8 @@ export default function Student() {
     return (
       <Box className="error-container">
         <Typography color="error">{error}</Typography>
-        <Button variant="contained" onClick={() => window.location.reload()}>
-          Try Again
+        <Button variant="contained" onClick={() => Navigate('..')}>
+          Volver
         </Button>
       </Box>
     );

@@ -33,16 +33,7 @@ app.use('/api/courses', courseRoutes)
  app.post('/api/registerUser' , async (req, res) => {
   try {
     await UserController.createUser(req.body.email, req.body.username, req.body.password, req.body.isTeacher)
-    const token = jwt.sign({id:user.id, username:user.username}, process.env.JWT_SECRET, 
-      {
-        expiresIn: '1h'
-      })
-    res.cookie('access_token', token, {
-      httpOnly: true,
-      secure: false, // It's ideal to change it to true if the app is in production
-      sameSite: 'strict',
-      maxAge: 1000 * 60 * 60
-    })
+    res
     .status(201).json({message: 'User created succesfully'})
   } catch (error){
     res.status(400).json({error: error.message})

@@ -18,7 +18,7 @@ export default function RowRadioGroup(props) {
           <FormControlLabel 
             key={index} 
             value={label} 
-            control={<Radio />} 
+            control={<Radio color="orangered" />} 
             label={label}
             onChange={(e) => handleChange(e.target.value)} 
           />
