@@ -200,7 +200,7 @@ const Teacher = () => {
               }}
               onClick={handleCreate}
             >
-              Create New Class
+              Crear clase nueva
             </Button>
             <CreateClassPopup
               updateClasses={triggerRefresh}
