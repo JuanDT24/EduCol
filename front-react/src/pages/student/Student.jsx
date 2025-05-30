@@ -6,16 +6,16 @@ import {
 } from '@mui/material';
 import {
   Book as BookIcon,
-  Logout as LogoutIcon,
   Groups as GroupsIcon,
   Person as PersonIcon,
-  Grading as GradingIcon
+  Grading as GradingIcon,
+  Logout as LogoutIcon
 } from '@mui/icons-material';
 import { useUser } from '../../contexts/UserContext';
 import './Student.css';
 
 export default function Student() {
-  const { user, logout } = useUser();
+  const { user } = useUser();
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,12 +32,10 @@ export default function Student() {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ username: user.username }),
-          credentials: 'include'
         });
 
         if (!response.ok) throw new Error('Failed to fetch courses');
         const data = await response.json();
-
         setCourses(data);
         setLoading(false);
       } catch (err) {
@@ -48,11 +46,6 @@ export default function Student() {
 
     fetchData();
   }, [user]);
-
-  const handleLogout = () => {
-    logout();
-    Navigate('/login');
-  };
 
   if (loading) {
     return (
@@ -76,7 +69,7 @@ export default function Student() {
 
   return (
     <Box className="student-container">
-      <Box className="header-bar">
+      <Box className="header-bar" sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <Box>
           <Typography variant="h4" fontWeight="bold">
             Hola, {user?.username?.toUpperCase()}
@@ -86,9 +79,15 @@ export default function Student() {
         <Button
           variant="contained"
           color="inherit"
-          endIcon={<LogoutIcon />}
-          onClick={handleLogout}
-          className="logout-button"
+          onClick={() => Navigate('/')}
+          startIcon={<LogoutIcon />}
+          sx={{
+            bgcolor: '#000',
+            color: '#fff',
+            '&:hover': { bgcolor: '#333' },
+            borderRadius: 2,
+            textTransform: 'none'
+          }}
         >
           Cerrar sesión
         </Button>
@@ -123,28 +122,23 @@ export default function Student() {
                   </Typography>
                 </Box>
 
-                <Box sx={{ mb: 2 }}>
-                  <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
-                    Sistema de calificación:
-                  </Typography>
-                  {course.gradingScheme && Object.entries(course.gradingScheme).map(([key, value]) => (
-                    <Chip
-                      key={key}
-                      label={`${key}: ${(value * 100).toFixed(0)}%`}
-                      size="small"
-                      sx={{ mr: 1, mb: 1 }}
-                      icon={<GradingIcon fontSize="small" />}
-                    />
-                  ))}
-                </Box>
-
-                <Button 
-                  variant="outlined" 
-                  fullWidth 
-                  onClick={() => Navigate(`/course/${course._id}`)}
-                >
-                  Ver detalles
-                </Button>
+                {course.gradingScheme && (
+                  <Box sx={{ mb: 2 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 'bold' }}>
+                      Sistema de calificación:
+                    </Typography>
+                    {Object.entries(course.gradingScheme).map(([key, value]) => (
+                      <Chip
+                        key={key}
+                        label={`${key}: ${(value * 100).toFixed(0)}%`}
+                        size="small"
+                        sx={{ mr: 1, mb: 1 }}
+                        icon={<GradingIcon fontSize="small" />}
+                      />
+                    ))}
+                  </Box>
+                )}
+                {/* Botón "Ver detalles" eliminado */}
               </CardContent>
             </Card>
           </Grid>
