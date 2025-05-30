@@ -3,10 +3,9 @@ import EmailIcon from "@mui/icons-material/Email";
 import LockIcon from "@mui/icons-material/Lock";
 import PersonIcon from "@mui/icons-material/Person";
 import { addUser, loginUser } from "./LoginFunctions";
-import Topbar from "../../components/assets/Topbar";
+import {useUser} from "../../contexts/UserContext";
 import "./Login.css";
 import { useNavigate } from "react-router-dom";
-import Button from "../../components/assets/Button";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import RadioGroup from "../../components/assets/RadioGroup";
 
@@ -19,7 +18,7 @@ export default function Login() {
     isTeacher: false,
   });
 
-
+  const {login} = useUser();
   const handleChange = (value) => {
     setUserData({ ...userData, isTeacher: value === 'Educador'? true : false });
   }
@@ -42,12 +41,13 @@ export default function Login() {
     } else {
       try {
         const response = await loginUser(userData);
-        console.log(response);
-        const user = userData;
-        if (user.isTeacher) {
-          Navigate("/student");
-        } else {
+        const user = response.user;
+        try{login(user); console.log("iniciada sesion correctamente")} catch(err){}
+        const isTeacher = user.isTeacher
+        if (isTeacher) {
           Navigate("/teacher");
+        } else {
+          Navigate("/student");
         }
       } catch (err) {
         console.error(err);
@@ -64,6 +64,7 @@ export default function Login() {
     };
   });
   return (
+    <div className = "loginRoot">
     <div className="container">
       <div className="top-container">
         <ArrowBackIosIcon onClick={()=>Navigate("..")} className ={"BackButton"}/>
@@ -143,6 +144,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -20,7 +20,7 @@ export default function Topbar(props) {
 
     return (
         <div className="topbar-container">
-            <div className="short-border"></div>
+            <></>
             {topbarItems.map((item, index) => (
                 <button 
                     key={index}
