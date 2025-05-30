@@ -8,37 +8,44 @@ class courseController {
     }
     return this.db;
   }
-    static async createCourse (courseName, courseGrading, courseTeacherName){
-        const db = await this.getDB();
-        if (typeof courseGrading !== 'object' || Array.isArray(courseGrading) || courseGrading === null) {
-            throw new Error('Grading must be a valid object');
-        } 
-        const gradingWeights = Object.values(courseGrading);
-
-        // Verify that weights are numbers
-        const allNumbers = gradingWeights.every(val => typeof val === 'number' && !isNaN(val));
-        if(!allNumbers){
-            throw new Error('All grading weights must be numbers')
-        }
-        const sumGrades = gradingWeights.reduce((acc, val) => acc + val, 0);
-        if(Math.abs(sumGrades - 1) > 0.00001){
-            throw new Error('Grading weights must add up to 1')
-        }
-        const teacher = await db.collection('users').findOne({ username: courseTeacherName });
-        if(!teacher || teacher.isTeacher !== true){
-            throw new Error('User must be a teacher to create courses')
-        }
-        const result = await db.collection('courses').insertOne({
-            name: courseName,
-            gradingScheme:courseGrading,
-            teacherID:teacher._id
-        })
-        // Adding the course to the courses array inside the user collection
-        await db.collection('users').updateOne(
-            {_id: teacher._id },
-            {$push:{courses:result.insertedId}}
-        )
-    }
+    static async createCourse(courseName, courseGrading, courseTeacherName) {
+  const db = await this.getDB();
+  
+  if (typeof courseGrading !== 'object' || Array.isArray(courseGrading) || courseGrading === null) {
+    throw new Error('Grading must be a valid object');
+  }
+  
+  const gradingWeights = Object.values(courseGrading);
+  
+  // Verify that weights are numbers
+  const allNumbers = gradingWeights.every(val => typeof val === 'number' && !isNaN(val));
+  if (!allNumbers) {
+    throw new Error('All grading weights must be numbers');
+  }
+  
+  const sumGrades = gradingWeights.reduce((acc, val) => acc + val, 0);
+  if (Math.abs(sumGrades - 1) > 0.00001) {
+    throw new Error('Grading weights must add up to 1');
+  }
+  
+  const teacher = await db.collection('users').findOne({ username: courseTeacherName });
+  if (!teacher || teacher.isTeacher !== true) {
+    throw new Error('User must be a teacher to create courses');
+  }
+  
+  const result = await db.collection('courses').insertOne({
+    name: courseName,
+    gradingScheme: courseGrading,
+    teacherID: teacher._id
+  });
+  
+  await db.collection('users').updateOne(
+    { _id: teacher._id },
+    { $push: { courses: result.insertedId } }
+  );
+  
+  return result;
+}
     static async addStudent(studentName, courseId){
         const db = await this.getDB();
         const student = await db.collection('users').findOne({username: studentName})

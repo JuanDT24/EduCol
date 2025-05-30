@@ -22,30 +22,23 @@ import {
   Add as AddIcon,
   Search as SearchIcon,
 } from "@mui/icons-material";
+import { useUser } from "../../contexts/UserContext";
 
-const ClassesPopup = () => {
+const ClassesPopup = ({ clases }) => {
   const [open, setOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const [classes, setClasses] = useState([
-    { id: 1, name: "Algebra 101", code: "MATH101", students: 24, active: true },
-    { id: 2, name: "Chemistry", code: "CHEM202", students: 18, active: true },
-    {
-      id: 3,
-      name: "World History",
-      code: "HIST105",
-      students: 15,
-      active: false,
-    },
-    { id: 4, name: "Literature", code: "LIT201", students: 22, active: true },
-  ]);
-
-  const handleOpen = () => setOpen(true);
+  const [classes, setClasses] = useState([clases]);
+  const { user } = useUser();
+  const handleOpen = () => {
+    setClasses(user.classes);
+    console.log("Clases del profesor recibidas:", user.classes);
+    setOpen(true);
+  };
   const handleClose = () => setOpen(false);
 
   const filteredClasses = classes.filter(
     (cls) =>
-      cls.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      cls.code.toLowerCase().includes(searchTerm.toLowerCase())
+      cls?.name?.toLowerCase()?.includes(searchTerm.toLowerCase()) || false
   );
 
   return (
@@ -134,8 +127,8 @@ const ClassesPopup = () => {
                     >
                       <Avatar
                         sx={{
-                          bgcolor: cls.active ? "primary.light" : "grey.300",
-                          color: cls.active ? "primary.main" : "grey.600",
+                          bgcolor: "primary.light",
+                          color: "primary.main",
                           mr: 2,
                         }}
                       >
@@ -156,14 +149,14 @@ const ClassesPopup = () => {
                         sx={{ mr: 1 }}
                       />
                       <Typography variant="body2">
-                        {cls.students} Estudiantes
+                        {cls.students?.length} Estudiantes
                       </Typography>
                     </Box>
 
                     <Chip
-                      label={cls.active ? "Activa" : "Inactiva"}
+                      label={"Activa"}
                       size="small"
-                      color={cls.active ? "success" : "default"}
+                      color={"success"}
                       sx={{ mt: 2 }}
                     />
                   </CardContent>
@@ -183,7 +176,6 @@ const ClassesPopup = () => {
             </Typography>
           )}
         </DialogContent>
-
       </Dialog>
     </>
   );

@@ -165,6 +165,12 @@
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
+
+.create-button{
+  margin-left:5px;
+  margin-bottom:5px;
+}
+
 .classes-card:hover,
 .assignments-card:hover,
 .announcements-card:hover {

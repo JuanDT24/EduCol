@@ -35,6 +35,15 @@ class UserController {
             throw new Error('Incorrect password')
         }
     }
+
+    static async getStudents(){
+        const db = await Connection.connect()
+        const students = await db.collection('users').find({isTeacher: false}).toArray();
+        if(!students || students.length === 0) throw new Error('No students found');
+        return students;
+
+    }
+
     static async getCoursesByName(userName){
         const db = await Connection.connect()
         const user = await db.collection('users').findOne({username: userName})

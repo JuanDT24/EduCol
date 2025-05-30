@@ -58,6 +58,16 @@ app.use('/api/courses', courseRoutes)
       res.status(500).json({error: error.message})
     }
  });
+
+ app.post('/api/users/getstudents', async (req, res) => {
+  try {
+    const students = await UserController.getStudents();
+    res.status(200).json(students);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+    console.error(error);
+  }
+ });
  
 app.post('/api/users/getcourses_byusername', async (req, res) => {
   try {

@@ -9,16 +9,23 @@ const courseController = require('../controllers/courseController.js')
 const router = express.Router();
 // Endpoints
 
-router.post('/createCourse', async (req, res) =>{
-    try{
-    const {course_name, grading_scheme, teacher_name} = req.body
-    await courseController.createCourse(course_name, grading_scheme, teacher_name)
-    res.status(201).json({ message: "Curso creado correctamente" });
-    }catch(error){
-    res.status(400).json({error: "No se pudo crear el curso " + error.message})
-    console.error(error)
-    }
-})
+router.post('/createCourse', async (req, res) => {
+  try {
+    const { course_name, grading_scheme, teacher_name } = req.body;
+    const result = await courseController.createCourse(course_name, grading_scheme, teacher_name);
+    res.status(201).json({ 
+      success: true,
+      courseId: result.insertedId, 
+      message: "Curso creado correctamente"
+    });
+  } catch (error) {
+    res.status(400).json({ 
+      success: false,
+      error: "No se pudo crear el curso: " + error.message 
+    });
+    console.error(error);
+  }
+});
 router.post('/addStudent', async (req, res) => {
     try{
     const {username, courseID} = req.body;
