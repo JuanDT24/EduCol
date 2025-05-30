@@ -20,27 +20,29 @@ app.get("/api/users", async (req, res) => {
   res.json(users);
 });
 
-app.post("/api/registerUser", async (req, res) => {
+app.post('/api/registerUser' , async (req, res) => {
   try {
-    await UserController.createUser(
-      req.body.email,
-      req.body.username,
-      req.body.password
-    );
-    res
-      .cookie("access_token", token, {
-        httpOnly: true,
-        secure: false, // It's ideal to change it to true if the app is in production
-        sameSite: "strict",
-        maxAge: 1000 * 60 * 60,
+    await UserController.createUser(req.body.email, req.body.username, req.body.password, req.body.isTeacher)
+    const token = jwt.sign({id:user.id, username:user.username}, process.env.JWT_SECRET, 
+      {
+        expiresIn: '1h'
       })
-      .status(201)
-      .json({ message: "User created succesfully" });
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-    console.error(error);
+
+      if (!token) {
+      return res.status(500).json({ error: "Failed to generate token" });
+    }
+    res.cookie('access_token', token, {
+      httpOnly: true,
+      secure: false, // It's ideal to change it to true if the app is in production
+      sameSite: 'strict',
+      maxAge: 1000 * 60 * 60
+    })
+    .status(201).json({message: 'User created succesfully'})
+  } catch (error){
+    res.status(400).json({error: error.message})
+    console.error(error)
   }
-});
+ });
 app.post("/api/login", async (req, res) => {
   // Verifying user
   try {

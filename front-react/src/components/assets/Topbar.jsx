@@ -1,23 +1,35 @@
-import "./Topbar.css"
-import {useNavigate} from "react-router-dom"
-export default function Topbar() {
-    const navigate = useNavigate()
-    const registerUser = () => {
-        navigate("/login")
-    }
-    const scrollToSection = (sectionId) =>{
-        const section = document.getElementById(sectionId);
-        if(section){
-            section.scrollIntoView({behavior:'smooth'})
-        } 
-    }
-    return(
-    <div className="topbar-container">
-        <div className="short-border"></div>
-        <button className="topbar-item">Inicio</button>
-        <button className="topbar-item" onClick={()=> scrollToSection("about-us")}>About us</button>
-        <button className="topbar-item" onClick={() => registerUser()}>Registrate</button>
-    </div>
-    )
-}
+import "./Topbar.css";
+import { useNavigate } from "react-router-dom";
 
+export default function Topbar(props) {
+    const navigate = useNavigate();
+    const { topbarItems } = props;
+
+    const handleItemClick = (item) => {
+        if (item.action === "navigate") {
+            navigate(item.target);
+        } else if (item.action === "scroll") {
+            const section = document.getElementById(item.target);
+            if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+            }
+        } else if (item.onClick) {
+            item.onClick();
+        }
+    };
+
+    return (
+        <div className="topbar-container">
+            <div className="short-border"></div>
+            {topbarItems.map((item, index) => (
+                <button 
+                    key={index}
+                    className="topbar-item"
+                    onClick={() => handleItemClick(item)}
+                >
+                    {item.label}
+                </button>
+            ))}
+        </div>
+    );
+}
