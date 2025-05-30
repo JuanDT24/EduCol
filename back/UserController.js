@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 var validator = require("email-validator");
 class UserController {
     static async createUser (userEmail, userName, userPassword, isTeacher){
+
         // Email Validation
         if (!validator.validate(userEmail)) throw new Error('Email is not valid');
         const db = await Connection.connect()
@@ -16,7 +17,6 @@ class UserController {
         // hash receives password and number of SALT characters
         const hashedPassword = await bcrypt.hash(userPassword, 10)
         const isTeacherBool = isTeacher === 'true' || isTeacher === true; // This covers both cases, sent like a string and sent like a bool
-
         const result = await db.collection('users').insertOne({
             username: userName,
             email: userEmail,
@@ -47,6 +47,7 @@ class UserController {
         .find({ _id: { $in: user.courses } }) // busca todos los cursos por _id
         .toArray();
         return courses;
+
 
     }
 }

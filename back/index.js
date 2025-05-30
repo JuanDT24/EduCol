@@ -21,36 +21,6 @@ app.use(cors());
 
 //Routes 
 
-<<<<<<< HEAD
-app.post('/api/registerUser', async (req, res) => {
-  try {
-    const user = await UserController.createUser(
-      req.body.email,
-      req.body.username,
-      req.body.password,
-      req.body.isTeacher
-    );
-
-    const token = jwt.sign(
-      { id: user.id, username: user.username },
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' }
-    );
-
-    if (!token) {
-      return res.status(500).json({ error: "Failed to generate token" });
-    }
-
-    res
-      .cookie('access_token', token, {
-        httpOnly: true,
-        secure: false, // cambia a true en producción con HTTPS
-        sameSite: 'strict',
-        maxAge: 1000 * 60 * 60
-      })
-      .status(201)
-      .json({ message: 'User created successfully' });
-=======
 app.use('/api/teachers', teacherRoutes)
 app.use('/api/students', studentRoutes)
 app.use('/api/courses', courseRoutes)
@@ -60,7 +30,6 @@ app.use('/api/courses', courseRoutes)
   const users = await db.collection('users').find({}).toArray();
   res.json(users)
  });
-
  app.post('/api/registerUser' , async (req, res) => {
   try {
     await UserController.createUser(req.body.email, req.body.username, req.body.password, req.body.isTeacher)
@@ -94,7 +63,6 @@ app.post('/api/users/getcourses_byusername', async (req, res) => {
   try {
     const courses = await UserController.getCoursesByName(req.body.username);
     res.status(200).json(courses);
->>>>>>> 780566a873f1cdec9fcf53f0ff9b1050712f6b9a
   } catch (error) {
     res.status(400).json({ error: error.message });
     console.error(error);
