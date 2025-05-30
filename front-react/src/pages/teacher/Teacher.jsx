@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Box, 
   Typography, 
@@ -11,7 +12,8 @@ import {
   List,
   ListItem,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  IconButton
 } from '@mui/material';
 import {
   Class as ClassIcon,
@@ -20,15 +22,18 @@ import {
   VideoLibrary as LessonsIcon,
   Notifications as AnnouncementsIcon,
   BarChart as AnalyticsIcon,
-  Gradient as GradientIcon
+  Gradient as GradientIcon,
 } from '@mui/icons-material';
+import {useUser} from '../../contexts/UserContext';
+import LogoutIcon from '@mui/icons-material/Logout';
 import './Teacher.css';
 import ClassesPopup from '../../components/assets/MisClases';
 
 const Teacher = () => {
   // Data
   const classes = ['Diseño de datos 1', 'Optimización', 'Sistemas Operativos'];
-
+  const Navigate = useNavigate();
+  const { user } = useUser();
   return (
     <div className="teacher-dashboard">
       <Paper className="sidebar">
@@ -39,14 +44,15 @@ const Teacher = () => {
         
         <nav>
             <ClassesPopup />
-          
         </nav>
       </Paper>
 
       <main className="main-content">
         <header className="dashboard-header">
-          <Typography component="h1" className="dashboard-title">Panel del profesor</Typography>
-          <Avatar className="user-avatar"></Avatar>
+          <Typography component="h1" className="dashboard-title">{`Bienvenido ${user.username}`}</Typography>
+          <IconButton onClick={() => Navigate('..') }>
+            <LogoutIcon />
+          </IconButton>
         </header>
 
         <section className="stats-section">
